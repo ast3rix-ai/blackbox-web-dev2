@@ -240,6 +240,12 @@ export const translations = {
         'labs.kinetic.desc': 'Procedural 3D engine for e-commerce.',
         'labs.echo.tagline': 'Immersive Storytelling',
         'labs.echo.desc': 'Scroll-linked animation and narrative interface.',
+
+        // Home Labs Showcase
+        'home.labs.title.prefix': 'From the',
+        'home.labs.title.highlight': 'Lab',
+        'home.labs.description': 'Experimental prototypes where we push boundaries.',
+        'home.labs.explore': 'Explore Labs',
     },
     sk: {
         'nav.home': 'Domov',
@@ -477,5 +483,11 @@ export const translations = {
         'labs.kinetic.desc': 'Procedurálny 3D engine pre e-commerce.',
         'labs.echo.tagline': 'Imerzívne rozprávanie',
         'labs.echo.desc': 'Animácie viazané na scroll a naratívne rozhranie.',
+
+        // Home Labs Showcase
+        'home.labs.title.prefix': 'Z nášho',
+        'home.labs.title.highlight': 'laboratória',
+        'home.labs.description': 'Experimentálne prototypy, kde posúvame hranice.',
+        'home.labs.explore': 'Preskúmať Labs',
     }
 };

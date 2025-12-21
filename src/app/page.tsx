@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import HeroSection from "@/components/HeroSection";
 import BentoGrid from "@/components/BentoGrid";
+import LabsShowcase from "@/components/LabsShowcase";
 import BotShowcase from "@/components/BotShowcase";
 import MagneticCTA from "@/components/MagneticCTA";
 
@@ -18,6 +19,7 @@ export default function Home() {
     <div className="min-h-screen">
       <HeroSection />
       <BentoGrid />
+      <LabsShowcase />
       <BotShowcase />
       <MagneticCTA />
     </div>
