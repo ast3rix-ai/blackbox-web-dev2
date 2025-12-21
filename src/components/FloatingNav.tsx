@@ -4,11 +4,10 @@ import { useState, useEffect, useRef } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Code, Bot, Palette, Sparkles } from "lucide-react";
+import { Home, Code, Bot, Palette, Sparkles, FlaskConical } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "@/hooks/useTranslation";
 
-// Navigation items
 const navItems = [
   {
     label: "nav.home",
@@ -29,6 +28,11 @@ const navItems = [
     label: "nav.ui_ux",
     href: "/services/ui-ux-design",
     icon: Palette,
+  },
+  {
+    label: "nav.labs",
+    href: "/labs",
+    icon: FlaskConical,
   },
 ];
 

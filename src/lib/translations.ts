@@ -9,6 +9,7 @@ export const translations = {
         'nav.web_dev': 'Web Dev',
         'nav.ai_bots': 'AI Bots',
         'nav.ui_ux': 'UI/UX',
+        'nav.labs': 'Labs',
         'nav.hire_us': 'Hire Us',
 
         // Hero Section
@@ -225,11 +226,11 @@ export const translations = {
         'hire.mission.system': 'Full System',
     },
     sk: {
-        // Navigation
         'nav.home': 'Domov',
         'nav.web_dev': 'Weby',
         'nav.ai_bots': 'AI boti',
         'nav.ui_ux': 'UI/UX',
+        'nav.labs': 'Labs',
         'nav.hire_us': 'Kontakt',
 
         // Hero Section
