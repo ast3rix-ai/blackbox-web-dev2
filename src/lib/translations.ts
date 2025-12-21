@@ -224,6 +224,22 @@ export const translations = {
         'hire.mission.app': 'Mobile App',
         'hire.mission.ui': 'UI/UX',
         'hire.mission.system': 'Full System',
+
+        // Labs Page
+        'labs.back': 'Back to Base',
+        'labs.badge': 'R&D Vault',
+        'labs.title': 'BLACKBOX LABS',
+        'labs.description': "Experimental prototypes and digital artifacts. Where we push the boundaries of what's possible.",
+        'labs.cta': 'Want to build something experimental together?',
+        'labs.cta_button': 'Start a Project',
+        'labs.launch': 'Launch Simulation',
+        'labs.coming_soon': 'Coming Soon',
+        'labs.nexus.tagline': 'Mission Control Dashboard',
+        'labs.nexus.desc': 'Real-time data visualization and OS simulation.',
+        'labs.kinetic.tagline': '3D Product Configurator',
+        'labs.kinetic.desc': 'Procedural 3D engine for e-commerce.',
+        'labs.echo.tagline': 'Immersive Storytelling',
+        'labs.echo.desc': 'Scroll-linked animation and narrative interface.',
     },
     sk: {
         'nav.home': 'Domov',
@@ -445,5 +461,21 @@ export const translations = {
         'hire.mission.app': 'Mobilná aplikácia',
         'hire.mission.ui': 'UI/UX',
         'hire.mission.system': 'Komplexný systém',
+
+        // Labs Page
+        'labs.back': 'Späť',
+        'labs.badge': 'R&D Laboratórium',
+        'labs.title': 'BLACKBOX LABS',
+        'labs.description': 'Experimentálne prototypy a digitálne artefakty. Tlačíme hranice možného.',
+        'labs.cta': 'Chcete spolu vytvoriť niečo experimentálne?',
+        'labs.cta_button': 'Začať projekt',
+        'labs.launch': 'Spustiť simuláciu',
+        'labs.coming_soon': 'Čoskoro',
+        'labs.nexus.tagline': 'Riadiace centrum',
+        'labs.nexus.desc': 'Vizualizácia dát v reálnom čase a simulácia OS.',
+        'labs.kinetic.tagline': '3D konfigurátor produktov',
+        'labs.kinetic.desc': 'Procedurálny 3D engine pre e-commerce.',
+        'labs.echo.tagline': 'Imerzívne rozprávanie',
+        'labs.echo.desc': 'Animácie viazané na scroll a naratívne rozhranie.',
     }
 };

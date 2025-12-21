@@ -10,14 +10,15 @@ import {
     Sparkles,
     Lock,
 } from "lucide-react";
+import { useTranslation } from "@/hooks/useTranslation";
 
 // Project data for the R&D Vault
 const projects = [
     {
         id: "nexus",
         name: "NEXUS",
-        tagline: "Mission Control Dashboard",
-        description: "Real-time data visualization and OS simulation.",
+        taglineKey: "labs.nexus.tagline",
+        descriptionKey: "labs.nexus.desc",
         tech: ["Next.js", "Recharts", "Framer Motion"],
         link: "/nexus",
         color: "#00f5ff", // Cyan
@@ -30,8 +31,8 @@ const projects = [
     {
         id: "kinetic",
         name: "KINETIC",
-        tagline: "3D Product Configurator",
-        description: "Procedural 3D engine for e-commerce.",
+        taglineKey: "labs.kinetic.tagline",
+        descriptionKey: "labs.kinetic.desc",
         tech: ["R3F", "WebGL", "Drei"],
         link: "/kinetic",
         color: "#ec4899", // Pink
@@ -44,8 +45,8 @@ const projects = [
     {
         id: "echo",
         name: "ECHO",
-        tagline: "Immersive Storytelling",
-        description: "Scroll-linked animation and narrative interface.",
+        taglineKey: "labs.echo.tagline",
+        descriptionKey: "labs.echo.desc",
         tech: ["GSAP", "Lenis"],
         link: "#",
         color: "#8b5cf6", // Violet
@@ -102,6 +103,7 @@ function ProjectCard({
     project: (typeof projects)[0];
     index: number;
 }) {
+    const { t } = useTranslation();
     const [isHovered, setIsHovered] = useState(false);
     const isComingSoon = project.status === "coming-soon";
 
@@ -150,7 +152,7 @@ function ProjectCard({
                     <div className="flex items-center gap-2 px-6 py-3 rounded-full bg-white/10 border border-white/20">
                         <Sparkles className="w-4 h-4 text-white" />
                         <span className="text-white font-medium text-sm">
-                            Launch Simulation
+                            {t('labs.launch')}
                         </span>
                         <ArrowUpRight className="w-4 h-4 text-white" />
                     </div>
@@ -162,7 +164,7 @@ function ProjectCard({
                         <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-zinc-800/80 border border-zinc-700">
                             <Lock className="w-4 h-4 text-zinc-400" />
                             <span className="text-zinc-400 font-medium text-sm">
-                                Coming Soon
+                                {t('labs.coming_soon')}
                             </span>
                         </div>
                     </div>
@@ -189,12 +191,12 @@ function ProjectCard({
                             />
                         )}
                     </div>
-                    <p className={`text-sm ${project.textColor}`}>{project.tagline}</p>
+                    <p className={`text-sm ${project.textColor}`}>{t(project.taglineKey as any)}</p>
                 </div>
 
                 {/* Description */}
                 <p className="text-zinc-400 text-sm leading-relaxed mb-4">
-                    {project.description}
+                    {t(project.descriptionKey as any)}
                 </p>
 
                 {/* Tech badges */}
@@ -259,6 +261,7 @@ function ProjectCard({
 
 // Main Labs page
 export default function LabsPage() {
+    const { t } = useTranslation();
     return (
         <div className="min-h-screen bg-zinc-950 text-zinc-100">
             {/* Header Section */}
@@ -282,7 +285,7 @@ export default function LabsPage() {
                             className="inline-flex items-center gap-2 text-zinc-500 hover:text-cyan-400 transition-colors"
                         >
                             <ArrowLeft className="w-4 h-4" />
-                            <span className="text-sm">Back to Base</span>
+                            <span className="text-sm">{t('labs.back')}</span>
                         </Link>
                     </motion.div>
 
@@ -294,7 +297,7 @@ export default function LabsPage() {
                         className="inline-flex items-center gap-2 px-4 py-2 mb-8 rounded-full border border-cyan-500/30 bg-cyan-500/5"
                     >
                         <FlaskConical className="w-4 h-4 text-cyan-400" />
-                        <span className="text-sm text-cyan-400">R&D Vault</span>
+                        <span className="text-sm text-cyan-400">{t('labs.badge')}</span>
                     </motion.div>
 
                     {/* Title with glitch effect */}
@@ -304,7 +307,7 @@ export default function LabsPage() {
                         transition={{ duration: 0.6, delay: 0.2 }}
                         className="mb-6"
                     >
-                        <GlitchTitle>BLACKBOX LABS</GlitchTitle>
+                        <GlitchTitle>{t('labs.title')}</GlitchTitle>
                     </motion.div>
 
                     {/* Subtitle */}
@@ -314,8 +317,7 @@ export default function LabsPage() {
                         transition={{ duration: 0.6, delay: 0.3 }}
                         className="text-lg text-zinc-400 max-w-xl"
                     >
-                        Experimental prototypes and digital artifacts. Where we push the
-                        boundaries of what&apos;s possible.
+                        {t('labs.description')}
                     </motion.p>
                 </div>
             </section>
@@ -340,13 +342,13 @@ export default function LabsPage() {
             >
                 <div className="max-w-2xl mx-auto text-center">
                     <p className="text-zinc-500 mb-6">
-                        Want to build something experimental together?
+                        {t('labs.cta')}
                     </p>
                     <Link
                         href="/hire-us"
                         className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-semibold hover:opacity-90 transition-opacity"
                     >
-                        <span>Start a Project</span>
+                        <span>{t('labs.cta_button')}</span>
                         <ArrowUpRight className="w-5 h-5" />
                     </Link>
                 </div>
