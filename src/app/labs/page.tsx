@@ -105,14 +105,129 @@ function ProjectCard({
     const [isHovered, setIsHovered] = useState(false);
     const isComingSoon = project.status === "coming-soon";
 
-    const CardWrapper = isComingSoon ? "div" : Link;
-    const cardProps = isComingSoon
-        ? {}
-        : {
-            href: project.link,
-            target: project.link.startsWith("http") ? "_blank" : undefined,
-            rel: project.link.startsWith("http") ? "noopener noreferrer" : undefined,
-        };
+    const cardContent = (
+        <>
+            {/* Thumbnail container - 16:9 aspect ratio */}
+            <div className="relative aspect-video overflow-hidden">
+                {/* 
+                    TODO: Replace this gradient with actual screenshot
+                    Use: <Image src="/labs/nexus-preview.png" alt={project.name} fill className="object-cover" />
+                */}
+                <div
+                    className={`absolute inset-0 bg-gradient-to-br ${project.colorClass} opacity-20`}
+                />
+
+                {/* Project logo/name overlay */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                    <motion.span
+                        className={`text-4xl font-black tracking-wider ${project.textColor}`}
+                        style={{
+                            textShadow: `0 0 40px ${project.color}40`,
+                        }}
+                        animate={isHovered && !isComingSoon ? { scale: 1.1 } : { scale: 1 }}
+                        transition={{ duration: 0.3 }}
+                    >
+                        {project.name}
+                    </motion.span>
+                </div>
+
+                {/* Scan lines effect */}
+                <div
+                    className="absolute inset-0 pointer-events-none opacity-20"
+                    style={{
+                        background:
+                            "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.1) 2px, rgba(0,0,0,0.1) 4px)",
+                    }}
+                />
+
+                {/* Hover overlay */}
+                <motion.div
+                    className="absolute inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: isHovered && !isComingSoon ? 1 : 0 }}
+                    transition={{ duration: 0.3 }}
+                >
+                    <div className="flex items-center gap-2 px-6 py-3 rounded-full bg-white/10 border border-white/20">
+                        <Sparkles className="w-4 h-4 text-white" />
+                        <span className="text-white font-medium text-sm">
+                            Launch Simulation
+                        </span>
+                        <ArrowUpRight className="w-4 h-4 text-white" />
+                    </div>
+                </motion.div>
+
+                {/* Coming Soon overlay */}
+                {isComingSoon && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/70 backdrop-blur-sm">
+                        <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-zinc-800/80 border border-zinc-700">
+                            <Lock className="w-4 h-4 text-zinc-400" />
+                            <span className="text-zinc-400 font-medium text-sm">
+                                Coming Soon
+                            </span>
+                        </div>
+                    </div>
+                )}
+
+                {/* Corner glow effect */}
+                <div
+                    className="absolute -top-20 -right-20 w-40 h-40 rounded-full blur-3xl opacity-30 pointer-events-none"
+                    style={{ background: project.color }}
+                />
+            </div>
+
+            {/* Card details */}
+            <div className="p-6">
+                {/* Title and tagline */}
+                <div className="mb-4">
+                    <div className="flex items-center justify-between mb-1">
+                        <h3 className="text-xl font-bold text-white group-hover:text-white/90 transition-colors">
+                            {project.name}
+                        </h3>
+                        {!isComingSoon && (
+                            <ArrowUpRight
+                                className={`w-5 h-5 ${project.textColor} opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5`}
+                            />
+                        )}
+                    </div>
+                    <p className={`text-sm ${project.textColor}`}>{project.tagline}</p>
+                </div>
+
+                {/* Description */}
+                <p className="text-zinc-400 text-sm leading-relaxed mb-4">
+                    {project.description}
+                </p>
+
+                {/* Tech badges */}
+                <div className="flex flex-wrap gap-2">
+                    {project.tech.map((tech) => (
+                        <span
+                            key={tech}
+                            className={`px-3 py-1 rounded-full text-xs font-medium border ${project.borderColor} ${project.bgColor} ${project.textColor}`}
+                        >
+                            {tech}
+                        </span>
+                    ))}
+                </div>
+            </div>
+
+            {/* Bottom border glow on hover */}
+            <motion.div
+                className="absolute bottom-0 left-0 right-0 h-px"
+                style={{
+                    background: `linear-gradient(to right, transparent, ${project.color}, transparent)`,
+                }}
+                initial={{ opacity: 0, scaleX: 0 }}
+                animate={{
+                    opacity: isHovered && !isComingSoon ? 1 : 0,
+                    scaleX: isHovered && !isComingSoon ? 1 : 0,
+                }}
+                transition={{ duration: 0.3 }}
+            />
+        </>
+    );
+
+    const cardClasses = `group block relative overflow-hidden rounded-2xl bg-zinc-900/50 backdrop-blur-sm border border-white/5 transition-all duration-500 ${isComingSoon ? "cursor-not-allowed" : "cursor-pointer hover:border-white/10"
+        }`;
 
     return (
         <motion.div
@@ -120,130 +235,24 @@ function ProjectCard({
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: index * 0.15 }}
         >
-            <CardWrapper
-                {...cardProps}
-                className={`group block relative overflow-hidden rounded-2xl bg-zinc-900/50 backdrop-blur-sm border border-white/5 transition-all duration-500 ${isComingSoon ? "cursor-not-allowed" : "cursor-pointer hover:border-white/10"
-                    }`}
-                onMouseEnter={() => setIsHovered(true)}
-                onMouseLeave={() => setIsHovered(false)}
-            >
-                {/* Thumbnail container - 16:9 aspect ratio */}
-                <div className="relative aspect-video overflow-hidden">
-                    {/* 
-            TODO: Replace this gradient with actual screenshot
-            Use: <Image src="/labs/nexus-preview.png" alt={project.name} fill className="object-cover" />
-          */}
-                    <div
-                        className={`absolute inset-0 bg-gradient-to-br ${project.colorClass} opacity-20`}
-                    />
-
-                    {/* Project logo/name overlay */}
-                    <div className="absolute inset-0 flex items-center justify-center">
-                        <motion.span
-                            className={`text-4xl font-black tracking-wider ${project.textColor}`}
-                            style={{
-                                textShadow: `0 0 40px ${project.color}40`,
-                            }}
-                            animate={isHovered && !isComingSoon ? { scale: 1.1 } : { scale: 1 }}
-                            transition={{ duration: 0.3 }}
-                        >
-                            {project.name}
-                        </motion.span>
-                    </div>
-
-                    {/* Scan lines effect */}
-                    <div
-                        className="absolute inset-0 pointer-events-none opacity-20"
-                        style={{
-                            background:
-                                "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.1) 2px, rgba(0,0,0,0.1) 4px)",
-                        }}
-                    />
-
-                    {/* Hover overlay */}
-                    <motion.div
-                        className="absolute inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: isHovered && !isComingSoon ? 1 : 0 }}
-                        transition={{ duration: 0.3 }}
-                    >
-                        <div className="flex items-center gap-2 px-6 py-3 rounded-full bg-white/10 border border-white/20">
-                            <Sparkles className="w-4 h-4 text-white" />
-                            <span className="text-white font-medium text-sm">
-                                Launch Simulation
-                            </span>
-                            <ArrowUpRight className="w-4 h-4 text-white" />
-                        </div>
-                    </motion.div>
-
-                    {/* Coming Soon overlay */}
-                    {isComingSoon && (
-                        <div className="absolute inset-0 flex items-center justify-center bg-black/70 backdrop-blur-sm">
-                            <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-zinc-800/80 border border-zinc-700">
-                                <Lock className="w-4 h-4 text-zinc-400" />
-                                <span className="text-zinc-400 font-medium text-sm">
-                                    Coming Soon
-                                </span>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Corner glow effect */}
-                    <div
-                        className="absolute -top-20 -right-20 w-40 h-40 rounded-full blur-3xl opacity-30 pointer-events-none"
-                        style={{ background: project.color }}
-                    />
+            {isComingSoon ? (
+                <div
+                    className={cardClasses}
+                    onMouseEnter={() => setIsHovered(true)}
+                    onMouseLeave={() => setIsHovered(false)}
+                >
+                    {cardContent}
                 </div>
-
-                {/* Card details */}
-                <div className="p-6">
-                    {/* Title and tagline */}
-                    <div className="mb-4">
-                        <div className="flex items-center justify-between mb-1">
-                            <h3 className="text-xl font-bold text-white group-hover:text-white/90 transition-colors">
-                                {project.name}
-                            </h3>
-                            {!isComingSoon && (
-                                <ArrowUpRight
-                                    className={`w-5 h-5 ${project.textColor} opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5`}
-                                />
-                            )}
-                        </div>
-                        <p className={`text-sm ${project.textColor}`}>{project.tagline}</p>
-                    </div>
-
-                    {/* Description */}
-                    <p className="text-zinc-400 text-sm leading-relaxed mb-4">
-                        {project.description}
-                    </p>
-
-                    {/* Tech badges */}
-                    <div className="flex flex-wrap gap-2">
-                        {project.tech.map((tech) => (
-                            <span
-                                key={tech}
-                                className={`px-3 py-1 rounded-full text-xs font-medium border ${project.borderColor} ${project.bgColor} ${project.textColor}`}
-                            >
-                                {tech}
-                            </span>
-                        ))}
-                    </div>
-                </div>
-
-                {/* Bottom border glow on hover */}
-                <motion.div
-                    className="absolute bottom-0 left-0 right-0 h-px"
-                    style={{
-                        background: `linear-gradient(to right, transparent, ${project.color}, transparent)`,
-                    }}
-                    initial={{ opacity: 0, scaleX: 0 }}
-                    animate={{
-                        opacity: isHovered && !isComingSoon ? 1 : 0,
-                        scaleX: isHovered && !isComingSoon ? 1 : 0,
-                    }}
-                    transition={{ duration: 0.3 }}
-                />
-            </CardWrapper>
+            ) : (
+                <Link
+                    href={project.link}
+                    className={cardClasses}
+                    onMouseEnter={() => setIsHovered(true)}
+                    onMouseLeave={() => setIsHovered(false)}
+                >
+                    {cardContent}
+                </Link>
+            )}
         </motion.div>
     );
 }
