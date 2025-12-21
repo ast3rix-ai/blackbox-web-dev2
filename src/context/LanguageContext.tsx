@@ -11,19 +11,19 @@ interface LanguageContextType {
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
-// Helper function to get cookie value
-function getCookie(name: string): string | null {
-    if (typeof document === 'undefined') return null;
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop()?.split(';').shift() || null;
-    return null;
+// Helper function to set cookie
+function setCookie(name: string, value: string, days: number) {
+    if (typeof document === 'undefined') return;
+    const expires = new Date();
+    expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
+    document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
 }
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
     const [language, setLanguage] = useState<Language>('en');
+    const [isInitialized, setIsInitialized] = useState(false);
 
-    // Load saved language preference on mount, or detect from geo
+    // Load saved language preference on mount, or detect from geo URL param
     useEffect(() => {
         const savedLang = localStorage.getItem('language') as Language;
 
@@ -31,8 +31,9 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
             // User has a saved preference - use it
             setLanguage(savedLang);
         } else {
-            // No saved preference - check geo-detection
-            const geoCountry = getCookie('geo-country');
+            // No saved preference - check geo from URL param
+            const urlParams = new URLSearchParams(window.location.search);
+            const geoCountry = urlParams.get('geo');
 
             if (geoCountry === 'SK') {
                 // Visitor from Slovakia - set Slovak
@@ -43,17 +44,37 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
                 setLanguage('en');
                 localStorage.setItem('language', 'en');
             }
+
+            // Set cookie to indicate preference has been set (prevents future redirects)
+            setCookie('has-language-pref', 'true', 365);
+
+            // Clean up URL by removing geo param
+            if (geoCountry) {
+                urlParams.delete('geo');
+                const newUrl = urlParams.toString()
+                    ? `${window.location.pathname}?${urlParams.toString()}`
+                    : window.location.pathname;
+                window.history.replaceState({}, '', newUrl);
+            }
         }
+
+        setIsInitialized(true);
     }, []);
 
     const handleSetLanguage = (lang: Language) => {
         setLanguage(lang);
         localStorage.setItem('language', lang);
+        setCookie('has-language-pref', 'true', 365);
     };
 
     const t = (key: TranslationKey): string => {
         return translations[language][key] || key;
     };
+
+    // Don't render children until language is initialized to prevent flash
+    if (!isInitialized) {
+        return null;
+    }
 
     return (
         <LanguageContext.Provider value={{ language, setLanguage: handleSetLanguage, t }}>

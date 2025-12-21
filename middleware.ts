@@ -2,25 +2,23 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 export function middleware(request: NextRequest) {
-    const response = NextResponse.next();
+    // Get country from Vercel's geolocation header
+    // This header is automatically provided by Vercel Edge Network
+    const country = request.headers.get('x-vercel-ip-country') || 'XX';
 
-    // Check if we've already set the geo cookie
-    const geoCountry = request.cookies.get('geo-country');
+    // Check if user already has a saved language preference cookie
+    const hasLanguagePref = request.cookies.get('has-language-pref');
 
-    if (!geoCountry) {
-        // Get country from Vercel's geolocation header
-        // This header is automatically provided by Vercel Edge Network
-        const country = request.headers.get('x-vercel-ip-country') || 'US';
+    // If no language preference saved, redirect with geo param on first load
+    const url = request.nextUrl.clone();
 
-        // Set a cookie with the detected country (expires in 1 year)
-        response.cookies.set('geo-country', country, {
-            maxAge: 60 * 60 * 24 * 365, // 1 year
-            path: '/',
-            sameSite: 'lax',
-        });
+    // Only add geo param if not already present and no saved preference
+    if (!hasLanguagePref && !url.searchParams.has('geo')) {
+        url.searchParams.set('geo', country);
+        return NextResponse.redirect(url);
     }
 
-    return response;
+    return NextResponse.next();
 }
 
 // Run middleware on all pages
