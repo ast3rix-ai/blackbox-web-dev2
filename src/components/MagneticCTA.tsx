@@ -167,15 +167,30 @@ export default function MagneticCTA() {
         className="mt-12 py-6 text-center"
       >
         <div className="flex justify-center gap-6 mb-3">
-          {["GitHub", "LinkedIn", "Twitter"].map((social) => (
-            <a
-              key={social}
-              href="#"
-              className="text-zinc-500 hover:text-white transition-colors text-sm"
-            >
-              {social}
-            </a>
-          ))}
+          <a
+            href="https://github.com/ast3rix-ai"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-zinc-500 hover:text-white transition-colors text-sm"
+          >
+            GitHub
+          </a>
+          <a
+            href="https://www.linkedin.com/in/filip-ronaj-a5b2a924a"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-zinc-500 hover:text-white transition-colors text-sm"
+          >
+            LinkedIn
+          </a>
+          <a
+            href="https://www.instagram.com/vibecodexo/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-zinc-500 hover:text-white transition-colors text-sm"
+          >
+            Instagram
+          </a>
         </div>
         <p className="text-zinc-500 text-sm italic mb-1">
           {t('cta.quote')}

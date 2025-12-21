@@ -11,7 +11,7 @@ import {
   ArrowRight,
   Linkedin,
   Github,
-  Twitter,
+  Instagram,
   Zap,
   Rocket,
   Send,
@@ -83,9 +83,9 @@ const budgetRanges = [
 
 // Social links
 const socialLinks = [
-  { name: "LinkedIn", icon: Linkedin, href: "https://linkedin.com/company/blackbox", color: "hover:text-blue-400" },
-  { name: "GitHub", icon: Github, href: "https://github.com/blackbox", color: "hover:text-white" },
-  { name: "Twitter", icon: Twitter, href: "https://twitter.com/blackbox", color: "hover:text-sky-400" },
+  { name: "LinkedIn", icon: Linkedin, href: "https://www.linkedin.com/in/filip-ronaj-a5b2a924a", color: "hover:text-blue-400" },
+  { name: "GitHub", icon: Github, href: "https://github.com/ast3rix-ai", color: "hover:text-white" },
+  { name: "Instagram", icon: Instagram, href: "https://www.instagram.com/vibecodexo/", color: "hover:text-pink-400" },
 ];
 
 // Magnetic Button Component
@@ -465,8 +465,8 @@ export default function HireUsPage() {
                         type="button"
                         onClick={() => toggleMission(mission.id)}
                         className={`px-4 py-2 rounded-xl border text-sm font-medium transition-all duration-300 ${selectedMissions.includes(mission.id)
-                            ? "bg-cyan-500/20 border-cyan-500/50 text-cyan-400 shadow-lg shadow-cyan-500/20"
-                            : "bg-zinc-800/50 border-zinc-700/50 text-zinc-400 hover:border-zinc-600"
+                          ? "bg-cyan-500/20 border-cyan-500/50 text-cyan-400 shadow-lg shadow-cyan-500/20"
+                          : "bg-zinc-800/50 border-zinc-700/50 text-zinc-400 hover:border-zinc-600"
                           }`}
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
@@ -488,8 +488,8 @@ export default function HireUsPage() {
                         type="button"
                         onClick={() => setBudget(range.value)}
                         className={`px-3 py-2.5 rounded-xl border text-sm font-medium transition-all duration-300 ${budget === range.value
-                            ? "bg-purple-500/20 border-purple-500/50 text-purple-400"
-                            : "bg-zinc-800/50 border-zinc-700/50 text-zinc-400 hover:border-zinc-600"
+                          ? "bg-purple-500/20 border-purple-500/50 text-purple-400"
+                          : "bg-zinc-800/50 border-zinc-700/50 text-zinc-400 hover:border-zinc-600"
                           }`}
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}

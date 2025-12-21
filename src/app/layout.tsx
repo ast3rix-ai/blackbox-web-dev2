@@ -100,9 +100,9 @@ const jsonLd = {
   logo: "https://blckbox.studio/logo.png",
   email: "project@blckbox.studio",
   sameAs: [
-    "https://github.com/blackbox",
-    "https://linkedin.com/company/blackbox",
-    "https://twitter.com/blackbox",
+    "https://github.com/ast3rix-ai",
+    "https://www.linkedin.com/in/filip-ronaj-a5b2a924a",
+    "https://www.instagram.com/vibecodexo/",
   ],
   services: [
     {
