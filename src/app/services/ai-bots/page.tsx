@@ -362,7 +362,7 @@ function CapabilitiesSection() {
   ];
 
   return (
-    <section className="px-6 py-32 bg-zinc-900/30">
+    <section className="px-6 py-32">
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
         <motion.div
