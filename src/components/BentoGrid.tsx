@@ -90,6 +90,8 @@ function DraggableTechIcon({
 
   return (
     <motion.div
+      // Pre-calculate layout for instant drag start
+      layout={false}
       drag
       dragConstraints={containerRef}
       dragElastic={0.1}
@@ -99,9 +101,14 @@ function DraggableTechIcon({
         bounceDamping: 15,
         power: 0.3
       }}
+      // Stop animation immediately on pointer down (before drag starts)
+      onPointerDown={() => {
+        if (!wasDragged) {
+          setWasDragged(true);
+        }
+      }}
       onDragStart={() => {
         setIsDragging(true);
-        setWasDragged(true);
       }}
       onDragEnd={() => setIsDragging(false)}
       initial={{
@@ -119,13 +126,13 @@ function DraggableTechIcon({
       transition={{
         opacity: { delay: index * 0.1, duration: 0.5 },
         scale: { duration: 0.2, ease: "easeOut" },
-        x: wasDragged ? {} : {
+        x: wasDragged ? { duration: 0 } : {
           duration: animDuration,
           repeat: Infinity,
           ease: "easeInOut",
           delay: animDelay,
         },
-        y: wasDragged ? {} : {
+        y: wasDragged ? { duration: 0 } : {
           duration: animDuration * 0.9,
           repeat: Infinity,
           ease: "easeInOut",

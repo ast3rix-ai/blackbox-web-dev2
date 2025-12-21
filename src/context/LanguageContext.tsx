@@ -11,60 +11,49 @@ interface LanguageContextType {
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
-// Helper function to set cookie
-function setCookie(name: string, value: string, days: number) {
-    if (typeof document === 'undefined') return;
-    const expires = new Date();
-    expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
-    document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
-}
-
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
     const [language, setLanguage] = useState<Language>('en');
     const [isInitialized, setIsInitialized] = useState(false);
 
-    // Load saved language preference on mount, or detect from geo URL param
+    // Load saved language preference on mount, or detect from geo
     useEffect(() => {
-        const savedLang = localStorage.getItem('language') as Language;
+        const initLanguage = async () => {
+            const savedLang = localStorage.getItem('language') as Language;
 
-        if (savedLang && (savedLang === 'en' || savedLang === 'sk')) {
-            // User has a saved preference - use it
-            setLanguage(savedLang);
-        } else {
-            // No saved preference - check geo from URL param
-            const urlParams = new URLSearchParams(window.location.search);
-            const geoCountry = urlParams.get('geo');
-
-            if (geoCountry === 'SK') {
-                // Visitor from Slovakia - set Slovak
-                setLanguage('sk');
-                localStorage.setItem('language', 'sk');
+            if (savedLang && (savedLang === 'en' || savedLang === 'sk')) {
+                // User has a saved preference - use it
+                setLanguage(savedLang);
             } else {
-                // Everyone else - set English
-                setLanguage('en');
-                localStorage.setItem('language', 'en');
+                // No saved preference - fetch geo-detection
+                try {
+                    const response = await fetch('/api/geo');
+                    const data = await response.json();
+
+                    if (data.country === 'SK') {
+                        // Visitor from Slovakia - set Slovak
+                        setLanguage('sk');
+                        localStorage.setItem('language', 'sk');
+                    } else {
+                        // Everyone else - set English
+                        setLanguage('en');
+                        localStorage.setItem('language', 'en');
+                    }
+                } catch (error) {
+                    // On error, default to English
+                    setLanguage('en');
+                    localStorage.setItem('language', 'en');
+                }
             }
 
-            // Set cookie to indicate preference has been set (prevents future redirects)
-            setCookie('has-language-pref', 'true', 365);
+            setIsInitialized(true);
+        };
 
-            // Clean up URL by removing geo param
-            if (geoCountry) {
-                urlParams.delete('geo');
-                const newUrl = urlParams.toString()
-                    ? `${window.location.pathname}?${urlParams.toString()}`
-                    : window.location.pathname;
-                window.history.replaceState({}, '', newUrl);
-            }
-        }
-
-        setIsInitialized(true);
+        initLanguage();
     }, []);
 
     const handleSetLanguage = (lang: Language) => {
         setLanguage(lang);
         localStorage.setItem('language', lang);
-        setCookie('has-language-pref', 'true', 365);
     };
 
     const t = (key: TranslationKey): string => {

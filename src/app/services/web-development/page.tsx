@@ -14,35 +14,28 @@ import {
 } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
 
-// Grid Beam Background Animation
+// Grid Beam Background - Static, GPU-optimized version
 function GridBeamBackground() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {/* Vertical grid lines */}
-      {[...Array(12)].map((_, i) => (
-        <motion.div
+      {/* Static vertical grid lines */}
+      {[...Array(6)].map((_, i) => (
+        <div
           key={i}
-          className="absolute top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-cyan-500/20 to-transparent"
-          style={{ left: `${(i + 1) * 8}%` }}
-          initial={{ opacity: 0, scaleY: 0 }}
-          animate={{
-            opacity: [0, 0.5, 0],
-            scaleY: [0, 1, 0],
-          }}
-          transition={{
-            duration: 3,
-            delay: i * 0.2,
-            repeat: Infinity,
-            repeatDelay: 2,
+          className="absolute top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-cyan-500/10 to-transparent"
+          style={{
+            left: `${(i + 1) * 15}%`,
+            opacity: 0.3 + (i % 2) * 0.2,
           }}
         />
       ))}
-      {/* Ambient glow */}
+      {/* Ambient glow orbs */}
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl" />
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl" />
     </div>
   );
 }
+
 
 // Hero Section
 function HeroSection() {
